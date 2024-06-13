@@ -1,0 +1,22 @@
+.contactItem {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.contactItem button {
+  margin-left: 10px;
+  background-color: initial;
+  border: 1px solid slategray;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.contactItem button:hover {
+  background-color: lightblue;
+}
+
+.contactItem button:active {
+  background-color: blue;
+  color: white;
+}

@@ -1,4 +1,4 @@
-import Contacts from "./Contacts";
+import Contacts from "./Contacts/Contacts";
 
 function App() {
   return (

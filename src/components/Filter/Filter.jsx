@@ -1,11 +1,12 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { nanoid } from "nanoid/non-secure";
+import styles from "./Filter.module.scss";
 
 const Filter = ({ filter, onChange }) => {
   const searchId = nanoid();
   return (
-    <>
+    <div className={styles.filter}>
       <label htmlFor={searchId}>Find contact</label>
       <input
         type="text"
@@ -14,7 +15,7 @@ const Filter = ({ filter, onChange }) => {
         value={filter}
         onChange={onChange}
       />
-    </>
+    </div>
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { nanoid } from "nanoid/non-secure";
-import styles from "./Contacts.module.scss";
+import styles from "./ContactForm.module.scss";
 
 export default class ContactForm extends Component {
   state = {
@@ -24,7 +24,7 @@ export default class ContactForm extends Component {
   formatPhoneNumber = (value) => {
     const cleaned = ("" + value).replace(/\D/g, "");
 
-    const match = cleaned.match(/^(\\d{0,3})(\\d{0,3})(\\d{0,4})$/);
+    const match = cleaned.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
 
     if (match) {
       return [match[1], match[2], match[3]].filter(Boolean).join("-");
@@ -35,7 +35,7 @@ export default class ContactForm extends Component {
 
   validateNumber = () => {
     const { number } = this.state;
-    const phonePattern = /^[+]?[(]?[0-9]{1,4}[)]?[-\\s./0-9]*$/;
+    const phonePattern = /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/;
     if (!phonePattern.test(number)) {
       this.setState({ numberError: "Invalid phone number format" });
     } else {
@@ -68,20 +68,20 @@ export default class ContactForm extends Component {
           id={nameId}
           type="text"
           name="name"
+          required
           value={this.state.name}
           onChange={this.handleChange}
-          required
         />
-        <label htmlFor={numId}>Number</label>
+        <label htmlFor={numId}>Phone number</label>
         <input
           id={numId}
           type="tel"
           name="number"
+          required
           value={this.state.number}
           onChange={this.handleChange}
-          required
         />
-        {numberError && <p className={styles.error}>{numberError}</p>}
+        {numberError && <span className={styles.error}>{numberError}</span>}
         <button type="submit">Add contact</button>
       </form>
     );
