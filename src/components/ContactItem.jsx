@@ -2,21 +2,16 @@ import React from "react";
 import PropTypes from 'prop-types';
 import styles from "./Contacts.module.scss";
 
-const ContactItem = ({ contact, onDelete }) => {
-  return (
-    <li className={styles.contactItem}>
-      {contact.name}: {contact.number}
-      <button onClick={() => onDelete(contact.id)}>Delete</button>
-    </li>
-  );
-};
+const ContactItem = ({ name, number, onDelete }) => (
+  <li className={styles.contactItem}>
+    {name}: {number}
+    <button onClick={onDelete}>Delete</button>
+  </li>
+);
 
 ContactItem.propTypes = {
-  contact: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    number: PropTypes.string.isRequired,
-  }).isRequired,
+  name: PropTypes.string.isRequired,
+  number: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 

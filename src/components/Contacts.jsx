@@ -1,9 +1,8 @@
-import { nanoid } from "nanoid/non-secure";
-import { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from "react";
 import ContactForm from "./ContactForm";
 import ContactList from "./ContactList";
 import Filter from "./Filter";
+import styles from "./Contacts.module.scss";
 
 export default class Contacts extends Component {
   state = {
@@ -12,43 +11,28 @@ export default class Contacts extends Component {
   };
 
   componentDidMount() {
-    const storedContacts = localStorage.getItem("contacts");
-    if (storedContacts) {
-      this.setState({ contacts: JSON.parse(storedContacts) });
-    }
+    const contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+    this.setState({ contacts });
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.contacts !== this.state.contacts) {
-      localStorage.setItem("contacts", JSON.stringify(this.state.contacts));
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
 
   addContact = (name, number) => {
-    const { contacts } = this.state;
-    const isDuplicate = contacts.some(
-      (contact) => contact.name.toLowerCase() === name.toLowerCase(),
-    );
-
-    if (isDuplicate) {
-      alert(`${name} is already in the contacts.`);
-      return;
-    }
-
-    const newContact = {
-      id: nanoid(),
-      name,
-      number,
-    };
-
+    const newContact = { id: nanoid(), name, number };
     this.setState((prevState) => ({
       contacts: [...prevState.contacts, newContact],
     }));
   };
 
-  deleteContact = (id) => {
+  deleteContact = (contactId) => {
     this.setState((prevState) => ({
-      contacts: prevState.contacts.filter((contact) => contact.id !== id),
+      contacts: prevState.contacts.filter(
+        (contact) => contact.id !== contactId
+      ),
     }));
   };
 
@@ -56,7 +40,17 @@ export default class Contacts extends Component {
     this.setState({ filter: ev.currentTarget.value });
   };
 
+  getFilteredContacts = () => {
+    const { contacts, filter } = this.state;
+    const normalizedFilter = filter.toLowerCase();
+
+    return contacts.filter((contact) =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
+  };
+
   render() {
+    const filteredContacts = this.getFilteredContacts();
     return (
       <>
         <h1>Phonebook</h1>
@@ -64,13 +58,10 @@ export default class Contacts extends Component {
         <h2>Contacts</h2>
         <Filter filter={this.state.filter} onChange={this.handleFilterChange} />
         <ContactList
-          contacts={this.state.contacts}
-          filter={this.state.filter}
+          contacts={filteredContacts}
           onDelete={this.deleteContact}
         />
       </>
     );
   }
 }
-
-Contacts.propTypes = {};

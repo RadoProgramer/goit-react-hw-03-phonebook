@@ -1,30 +1,28 @@
+
+
 import React from "react";
 import PropTypes from 'prop-types';
-import styles from "./Contacts.module.scss";
 import ContactItem from "./ContactItem";
+import styles from "./Contacts.module.scss";
 
-const ContactList = ({ contacts, filter, onDelete }) => {
-  const filteredContacts = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(filter.toLowerCase()),
-  );
-
-  return (
-    <ul className={styles.list}>
-      {filteredContacts.map((contact) => (
-        <ContactItem key={contact.id} contact={contact} onDelete={onDelete} />
-      ))}
-    </ul>
-  );
-};
+const ContactList = ({ contacts, onDelete }) => (
+  <ul className={styles.list}>
+    {contacts.map(({ id, name, number }) => (
+      <ContactItem key={id} name={name} number={number} onDelete={() => onDelete(id)} />
+    ))}
+  </ul>
+);
 
 ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    number: PropTypes.string.isRequired,
-  })).isRequired,
-  filter: PropTypes.string.isRequired,
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 
 export default ContactList;
+
